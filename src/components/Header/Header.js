@@ -1,5 +1,5 @@
 import React from "react"
-import "./Header.module.css";
+import style from "./Header.module.css";
 import img from "./header_logo.png";
 import { Users } from "../Buttons/Users";
 import { SignUp } from "../Buttons/SignUp";
