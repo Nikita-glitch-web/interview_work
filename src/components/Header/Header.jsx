@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react"
 import style from "./Header.module.css";
 import img from "./header_logo.png";
