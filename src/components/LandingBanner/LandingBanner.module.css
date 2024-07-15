@@ -1,0 +1,10 @@
+.banner_content_box {
+    max-width: 1024px;
+    margin: 0 auto;
+}
+
+.banner_content {
+    background-image: url("./LandingBanner.png");
+    width: 1000px;
+    height: 600px;
+}

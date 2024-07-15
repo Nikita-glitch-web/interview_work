@@ -2,8 +2,7 @@
 import React from "react";
 import style from "./Header.module.css";
 import img from "./header_logo.png";
-import { Users } from "../Buttons/Users";
-import { SignUp } from "../Buttons/SignUp";
+import { Button } from "../Controls/Button";
 
 export const Header = () => {
   return (
@@ -17,10 +16,10 @@ export const Header = () => {
         </div>
         <div className={style.header_nav_wrapper}>
           <div className={style.header_btn_wrapper}>
-            <Users />
+            <Button text="Users" />
           </div>
           <div className={style.header_btn_wrapper}>
-            <SignUp />
+            <Button text="Sign up" />
           </div>
         </div>
       </div>
