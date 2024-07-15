@@ -1,8 +1,5 @@
 body {
   background: #D0CFCF;
-}
-
-.content_wrapper {
-  max-width: 1024px;
-  margin: 0 auto;
+  padding: 0px;
+  margin: 0px;
 }

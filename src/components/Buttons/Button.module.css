@@ -9,4 +9,11 @@ font-family: "Nunito", sans-serif;
 text-align: center;
 border-radius: 80px;
 line-height: 26px;
+border: none;
+}
+
+
+.header_btn:hover {
+    background: #FFE302;
+    cursor: pointer;
 }
