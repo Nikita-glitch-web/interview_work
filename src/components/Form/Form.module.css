@@ -56,8 +56,8 @@
   height: 50.5px;
   color: #7e7e7e;
   background: white;
-  border: 1px solid #ccc; /* Меняем цвет границы на #ccc */
-  border-radius: 4px; /* Меняем радиус на 4px */
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
   width: 100%;
   overflow: hidden;
   box-sizing: border-box;
@@ -66,7 +66,7 @@
 }
 
 .img_input {
-  display: none; /* Скрыть стандартный input */
+  display: none; 
 }
 
 .upload_button {
@@ -84,7 +84,7 @@
 }
 
 .upload_button:hover {
-  background: #f1f1f1; /* Изменяем цвет при наведении */
+  background: #f1f1f1; 
 }
 
 .submit_btn {
@@ -130,12 +130,39 @@
     margin-bottom: 10px;
 }
 
+.success_img {
+    width: 328px;
+    height: 290px;
+}
+
+.input_error {
+  border: 1px solid red;
+  color: red;
+}
+
+
+.success_screen {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 30px;
+}
+
+.success_title {
+font-size: 40px;
+font-weight: 400;
+line-height: 40px;
+text-align: center;
+
+}
+
 .custom_radio .radio_button {
   display: inline-block;
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 2px solid #00f; /* Голубой бордер */
+  border: 2px solid #00f; 
   margin-right: 10px;
   position: relative;
   transition: all 0.3s ease;
@@ -149,10 +176,10 @@
 .custom_radio .radio_button::after {
   content: "";
   display: block;
-  width: 5px; /* Размер маленького кружочка */
+  width: 5px; 
   height: 5px;
   border-radius: 50%;
-  background: #00f; /* Голубой цвет */
+  background: #00f; 
   position: absolute;
   top: 50%;
   left: 50%;

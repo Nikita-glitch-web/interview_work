@@ -19,7 +19,11 @@ const TeamMembers = ({ members }) => {
             />
             <h3 className={style.member_title}>{member.name}</h3>
             <p className={style.member_text}>{member.position}</p>
-            <p className={style.member_text}>{member.email}</p>
+            <div className={style.tooltip}>
+              {member.email}
+              <span className={style.tooltiptext}> {member.email}</span>
+            </div>
+
             <p className={style.member_text_phone}>{member.phone}</p>
           </div>
         ))}

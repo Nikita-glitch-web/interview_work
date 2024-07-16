@@ -16,12 +16,11 @@
 }
 
 
-/* Button.module.css */
 
 
 .button:disabled,
 .button.disabled {
-  background: #ccc;
+  background:#D0CFCF;
   color: #FFFFFFDE;
 
   cursor: not-allowed;

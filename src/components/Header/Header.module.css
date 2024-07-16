@@ -15,7 +15,6 @@
   display: flex;
   padding-top: 9px;
   padding-bottom: 9px;
-  margin-left: 5px;
 }
 
 .header_logo_wrapper {
@@ -34,5 +33,15 @@
 
 .header_nav_wrapper {
   display: flex;
-  margin-right: 5px;
+}
+
+
+@media (max-width: 768px) {
+  .header_logo_box {
+    margin-left: 15px;
+  }
+
+  .header_nav_wrapper {
+    margin-right: 15px;
+  }
 }

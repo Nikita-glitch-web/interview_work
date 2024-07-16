@@ -1,9 +1,8 @@
-// UploadImageForm.jsx
-// eslint-disable-next-line no-unused-vars
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useRef } from "react";
 import style from "./Form.module.css";
 import { Button } from "../Controls/Button";
+import img from "./Success.png";
 
 export const UploadImageForm = () => {
   const fileInputRef = useRef();
@@ -17,8 +16,8 @@ export const UploadImageForm = () => {
   });
 
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
-  const [isSuccess, setIsSuccess] = useState(false); // Новое состояние
-
+  const [isSuccess, setIsSuccess] = useState(false); 
+  const [touched, setTouched] = useState({}); 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (files) {
@@ -41,10 +40,18 @@ export const UploadImageForm = () => {
     }
   };
 
+  const handleBlur = (e) => {
+    const { name } = e.target;
+    setTouched({
+      ...touched,
+      [name]: true,
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
-    setIsSuccess(true); // Устанавливаем состояние успеха
+    setIsSuccess(true); 
   };
 
   const handleUpload = () => {
@@ -56,17 +63,28 @@ export const UploadImageForm = () => {
     alert("Image uploaded successfully!");
   };
 
-  const isFormValid = formData.name && formData.email && formData.phone && formData.position && formData.photo;
+  const isFormValid =
+    formData.name &&
+    formData.email &&
+    formData.phone &&
+    formData.position &&
+    formData.photo;
+
+  const getInputClass = (name) => {
+    return touched[name] && !formData[name]
+      ? `${style.form_input} ${style.input_error}`
+      : style.form_input;
+  };
 
   return (
     <>
-      {isSuccess ? ( // Условный рендеринг
+      {isSuccess ? (
         <div className={style.success_screen}>
-          <h1>Success</h1>
+          <h1 className={style.success_title}>User successfully registered</h1>
           <img
-            src="success_image_url" // Укажите путь к вашему изображению "Success"
+            src={img} 
             alt="Success"
-            style={{ width: "200px", marginTop: "10px" }}
+            className={style.success_img}
           />
         </div>
       ) : (
@@ -75,38 +93,43 @@ export const UploadImageForm = () => {
           <div className={style.form_content_wrapper}>
             <label className={style.form_label}>
               <input
-                className={style.form_input}
+                className={getInputClass("name")}
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 placeholder="Your name"
               />
             </label>
 
             <label className={style.form_label}>
               <input
-                className={style.form_input}
+                className={getInputClass("email")}
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 placeholder="Email"
               />
             </label>
 
             <label className={style.form_label}>
               <input
-                className={style.form_input_last}
+                className={getInputClass("phone")}
                 type="tel"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 placeholder="Phone"
               />
             </label>
 
-            <label className={style.checkbox_title}>Select your position:</label>
+            <label className={style.checkbox_title}>
+              Select your position:
+            </label>
             <label className={style.custom_radio}>
               <input
                 type="radio"
@@ -173,6 +196,7 @@ export const UploadImageForm = () => {
                 type="file"
                 name="photo"
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
             </div>
             <div className={style.btn_wrapper}>
