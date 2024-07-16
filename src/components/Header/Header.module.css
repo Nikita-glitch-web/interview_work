@@ -19,15 +19,13 @@
 }
 
 .header_logo_wrapper {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
-
 .header_logo_text {
-  font-family: "Nunito", sans-serif;
-    font-size: 16px;
-    font-weight: 400;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 .header_btn_wrapper:nth-child(1) {

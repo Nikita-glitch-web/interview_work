@@ -1,54 +1,11 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import style from "./TeamMembers.module.css";
+import PropTypes from "prop-types";
 
-const TeamMembers = () => {
-  const members = [
-    {
-      name: "Salvador Stewart Flynn Thomas",
-      position: "Leading specialist of the department of cent... ",
-      email: "frontend_develop@gmail.com",
-      phone: "+38 (098) 278 76 24",
-      photo: "https://via.placeholder.com/80",
-    },
-    {
-      name: "Takamaru Ayako Jurrien",
-      position: "Lead Independent Director",
-      email: "Takamurug@gmail.com",
-      phone: "+38 (098) 278 90 24",
-      photo: "https://via.placeholder.com/80",
-    },
-    {
-      name: "Ilya",
-      position: "Co-Founder and CEO",
-      email: "Ilya_founder@gmail.com",
-      phone: "+38 (098) 235 44 24",
-      photo: "https://via.placeholder.com/80",
-    },
-    {
-      name: "Alexandre",
-      position: "Lead Independent Director",
-      email: "Alexandr_develop@gmail.com",
-      phone: "+38 (098) 198 44 24",
-      photo: "https://via.placeholder.com/80",
-    },
-    {
-      name: "Winny",
-      position: "Former Senior Director",
-      email: "Winny_develop@gmail.com",
-      phone: "+38 (098) 278 22 88",
-      photo: "https://via.placeholder.com/80",
-    },
-    {
-      name: "Simon",
-      position: "President of Commerce",
-      email: "Simon@gmail.com",
-      phone: "+38 (098) 278 44 00",
-      photo: "https://via.placeholder.com/80",
-    },
-  ];
+const TeamMembers = ({ members }) => {
+  
 
- 
   return (
     <div className={style.team_members}>
       <h2 className={style.members_title}>Working with GET request</h2>
@@ -72,6 +29,18 @@ const TeamMembers = () => {
       </div>
     </div>
   );
+};
+
+TeamMembers.propTypes = {
+  members: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      position: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      phone: PropTypes.string.isRequired,
+      photo: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
 
 export default TeamMembers;

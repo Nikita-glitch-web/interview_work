@@ -1,19 +1,28 @@
-.header_btn {
-    width: 100px;
-height: 34px;
-background: #F4E041;
-color: #000000DE;
-font-family: 'Nunito';
-font-size: 16px;
-font-family: "Nunito", sans-serif;
-text-align: center;
-border-radius: 80px;
-line-height: 26px;
-border: none;
+.button {
+  width: 100px;
+  height: 34px;
+  background: #f4e041;
+  color: #000000de;
+  font-size: 16px;
+  text-align: center;
+  border-radius: 80px;
+  line-height: 26px;
+  border: none;
+}
+
+.button:hover {
+  background: #ffe302;
+  cursor: pointer;
 }
 
 
-.header_btn:hover {
-    background: #FFE302;
-    cursor: pointer;
+/* Button.module.css */
+
+
+.button:disabled,
+.button.disabled {
+  background: #ccc;
+  color: #FFFFFFDE;
+
+  cursor: not-allowed;
 }

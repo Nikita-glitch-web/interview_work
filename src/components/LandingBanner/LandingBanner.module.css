@@ -4,9 +4,9 @@
 }
 
 @media (max-width: 1024px) {
-    .banner_content_box {
-        max-width: 1024px;
-    }
+  .banner_content_box {
+    max-width: 1024px;
+  }
 }
 
 .banner_content {
@@ -19,7 +19,6 @@
 }
 
 .banner_title {
-  font-family: "Nunito", sans-serif;
   font-size: 40px;
   font-weight: 400;
   line-height: 40px;
@@ -29,7 +28,6 @@
 }
 
 .bannner_text {
-  font-family: "Nunito", sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 26px;
@@ -38,14 +36,14 @@
 }
 
 .banner_text_box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 @media (max-width: 768px) {
-    .banner_content {
-        height: 500px;
-    }
+  .banner_content {
+    height: 500px;
+  }
 }
