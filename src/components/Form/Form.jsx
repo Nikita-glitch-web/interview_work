@@ -25,6 +25,7 @@ export const UploadImageForm = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [touched, setTouched] = useState({});
+  const [errors, setErrors] = useState({});
 
   const positions = [
     "Frontend developer",
@@ -34,7 +35,6 @@ export const UploadImageForm = () => {
   ];
 
   const handleChange = (e) => {
-    console.log(e.target);
     const { name, value, files } = e.target;
     if (files) {
       const file = files[0];
@@ -62,10 +62,24 @@ export const UploadImageForm = () => {
       ...touched,
       [name]: true,
     });
+    validateForm();
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.name) newErrors.name = "Name is required";
+    if (!formData.email) newErrors.email = "Email is required";
+    if (!formData.phone) newErrors.phone = "Phone is required";
+    if (!formData.position) newErrors.position = "Position is required";
+    if (!formData.photo) newErrors.photo = "Photo is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     setIsLoading(true);
     setTimeout(() => {
       console.log(formData);
@@ -110,6 +124,7 @@ export const UploadImageForm = () => {
               onChange={handleChange}
               onBlur={handleBlur}
               name={"name"}
+              errorMessage={touched.name && errors.name}
             />
             <Input
               value={formData.email}
@@ -118,7 +133,7 @@ export const UploadImageForm = () => {
               onChange={handleChange}
               onBlur={handleBlur}
               name={"email"}
-              errorMessage={"TEST ERROR"}
+              errorMessage={touched.email && errors.email}
             />
             <Input
               value={formData.phone}
@@ -128,6 +143,7 @@ export const UploadImageForm = () => {
               onChange={handleChange}
               onBlur={handleBlur}
               name={"phone"}
+              errorMessage={touched.phone && errors.phone}
             />
             <div className={style.radio_wrapper}>
               <h2 className={style.radio_buttons__title}>
@@ -158,21 +174,22 @@ export const UploadImageForm = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
+              <div className={style.image_preview_container}>
+                {imagePreviewUrl && (
+                  <img
+                    src={imagePreviewUrl}
+                    alt="Selected"
+                    className={style.image_preview}
+                  />
+                )}
+              </div>
+              {touched.photo && errors.photo && (
+                <div className={style.error_message}>{errors.photo}</div>
+              )}
             </div>
             <div className={style.btn_wrapper}>
               <Button text="Sign up" disabled={!isFormValid} />
             </div>
-
-            {imagePreviewUrl && (
-              <div>
-                <h2>Selected Image:</h2>
-                <img
-                  src={imagePreviewUrl}
-                  alt="Selected"
-                  style={{ width: "200px", marginTop: "10px" }}
-                />
-              </div>
-            )}
           </div>
         </form>
       )}
