@@ -3,9 +3,13 @@ import React, { useState, useRef } from "react";
 import style from "./Form.module.css";
 import { Button } from "../Controls/Button";
 import img from "./Success.png";
+import { Input } from "./components/Input";
+import { RadioButtons } from "./components/Radio";
 
 export const UploadImageForm = () => {
   const fileInputRef = useRef();
+  const [selectedPosition, setSelectedPosition] =
+    useState("Frontend developer");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -16,9 +20,10 @@ export const UploadImageForm = () => {
   });
 
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
-  const [isSuccess, setIsSuccess] = useState(false); 
-  const [touched, setTouched] = useState({}); 
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [touched, setTouched] = useState({});
   const handleChange = (e) => {
+    console.log(e.target);
     const { name, value, files } = e.target;
     if (files) {
       const file = files[0];
@@ -51,7 +56,7 @@ export const UploadImageForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
-    setIsSuccess(true); 
+    setIsSuccess(true);
   };
 
   const handleUpload = () => {
@@ -70,118 +75,49 @@ export const UploadImageForm = () => {
     formData.position &&
     formData.photo;
 
-  const getInputClass = (name) => {
-    return touched[name] && !formData[name]
-      ? `${style.form_input} ${style.input_error}`
-      : style.form_input;
-  };
-
   return (
     <>
       {isSuccess ? (
         <div className={style.success_screen}>
           <h1 className={style.success_title}>User successfully registered</h1>
-          <img
-            src={img} 
-            alt="Success"
-            className={style.success_img}
-          />
+          <img src={img} alt="Success" className={style.success_img} />
         </div>
       ) : (
         <form className={style.form} onSubmit={handleSubmit}>
           <h1 className={style.form_title}>Working with POST request</h1>
           <div className={style.form_content_wrapper}>
-            <label className={style.form_label}>
-              <input
-                className={getInputClass("name")}
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                placeholder="Your name"
+            <Input
+              value={formData.name}
+              type={"text"}
+              placeholder="Your name"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              name={"name"}
+            />
+            <Input
+              value={formData.email}
+              type={"email"}
+              placeholder="Email"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              name={"email"}
+              errorMessage={"TEST ERROR"}
+            />
+            <Input
+              value={formData.phone}
+              type={"tel"}
+              tooltip={"+3800000000"}
+              placeholder="Phone"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              name={"phone"}
+            />
+            <div className={style.radio_wrapper}>
+              <RadioButtons
+                selectedPosition={selectedPosition}
+                onChange={setSelectedPosition}
               />
-            </label>
-
-            <label className={style.form_label}>
-              <input
-                className={getInputClass("email")}
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                placeholder="Email"
-              />
-            </label>
-
-            <label className={style.form_label}>
-              <input
-                className={getInputClass("phone")}
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                placeholder="Phone"
-              />
-            </label>
-
-            <label className={style.checkbox_title}>
-              Select your position:
-            </label>
-            <label className={style.custom_radio}>
-              <input
-                type="radio"
-                name="position"
-                value="Frontend developer"
-                checked={formData.position === "Frontend developer"}
-                onChange={handleChange}
-                className={style.checkbox}
-              />
-              <span className={style.radio_button}></span>
-              Frontend developer
-            </label>
-
-            <label className={style.custom_radio}>
-              <input
-                type="radio"
-                name="position"
-                value="Backend developer"
-                checked={formData.position === "Backend developer"}
-                onChange={handleChange}
-                className={style.middle_checkbox}
-              />
-              <span className={style.radio_button}></span>
-              Backend developer
-            </label>
-
-            <label className={style.custom_radio}>
-              <input
-                type="radio"
-                name="position"
-                value="Designer"
-                checked={formData.position === "Designer"}
-                onChange={handleChange}
-                className={style.checkbox}
-              />
-              <span className={style.radio_button}></span>
-              Designer
-            </label>
-
-            <label className={style.custom_radio}>
-              <input
-                type="radio"
-                name="position"
-                value="QA"
-                checked={formData.position === "QA"}
-                onChange={handleChange}
-                className={style.checkbox}
-              />
-              <span className={style.radio_button}></span>
-              QA
-            </label>
-
+            </div>
             <div className={style.upload_container}>
               <button
                 type="button"

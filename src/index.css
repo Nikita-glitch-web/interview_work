@@ -1,7 +1,20 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Nunito', sans-serif;
+  color: var(--text-color);
+  font-size: 16px;
+}
+
 body {
-  background: #D0CFCF;
+  background: var(--background-color);
   padding: 0px;
   margin: 0px;
-  box-sizing: border-box;
+}
+
+button, input, textarea {
   font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
 }

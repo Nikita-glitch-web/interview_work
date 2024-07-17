@@ -23,7 +23,7 @@
 }
 
 .header_logo_text {
-  font-size: 16px;
+  font-size: var(--font-size-regular);
   font-weight: 400;
 }
 

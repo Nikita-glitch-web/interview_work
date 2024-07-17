@@ -27,7 +27,7 @@
 .member_text_phone {
   padding-bottom: 20px;
   font-family: "Nunito";
-  font-size: 16px;
+  font-size: var(--font-size-regular);
   font-weight: 400;
   line-height: 26px;
   text-align: center;
@@ -47,7 +47,7 @@
   background-color: #ffcc00;
   border: none;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: var(--font-size-regular);
   cursor: pointer;
   margin-top: 20px;
 }
@@ -55,10 +55,10 @@
 .btn {
   width: 120px;
   height: 34px;
-  background: #f4e041;
+  background: var( --primary-color);
   color: #000000de;
   font-family: "Nunito";
-  font-size: 16px;
+  font-size: var(--font-size-regular);
   font-family: "Nunito", sans-serif;
   text-align: center;
   border-radius: 80px;
@@ -80,7 +80,7 @@
 }
 
 .member_text {
-  font-size: 16px;
+  font-size: var(--font-size-regular);
   font-weight: 400;
   line-height: 26px;
   text-align: center;
@@ -88,7 +88,7 @@
 }
 
 .member_title {
-  font-size: 16px;
+  font-size: var(--font-size-regular);
   font-weight: 400;
   line-height: 26px;
   text-align: center;

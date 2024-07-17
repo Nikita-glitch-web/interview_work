@@ -28,7 +28,7 @@
 }
 
 .bannner_text {
-  font-size: 16px;
+  font-size: var(--font-size-regular);
   font-weight: 400;
   line-height: 26px;
   text-align: center;

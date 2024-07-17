@@ -1,9 +1,8 @@
 .button {
   width: 100px;
   height: 34px;
-  background: #f4e041;
-  color: #000000de;
-  font-size: 16px;
+  background: var(--primary-color);
+  color: var(--text-color);
   text-align: center;
   border-radius: 80px;
   line-height: 26px;
@@ -11,17 +10,13 @@
 }
 
 .button:hover {
-  background: #ffe302;
+  background: var(--primary-color);
   cursor: pointer;
 }
 
-
-
-
 .button:disabled,
 .button.disabled {
-  background:#D0CFCF;
-  color: #FFFFFFDE;
-
+  background: var( --disabled-color);
+  color: var(--disabled-text-color);
   cursor: not-allowed;
 }
