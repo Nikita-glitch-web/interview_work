@@ -6,6 +6,7 @@ import { Button } from "../Controls/Button";
 import img from "./Success.png";
 import { Input } from "./components/Input";
 import { RadioButtons } from "./components/Radio";
+import Preloader from "./Preloader.jsx";
 
 export const UploadImageForm = () => {
   const fileInputRef = useRef();
@@ -22,6 +23,7 @@ export const UploadImageForm = () => {
 
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [touched, setTouched] = useState({});
 
   const positions = [
@@ -64,8 +66,12 @@ export const UploadImageForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    setIsSuccess(true);
+    setIsLoading(true);
+    setTimeout(() => {
+      console.log(formData);
+      setIsSuccess(true);
+      setIsLoading(false);
+    }, 2000); // Симуляция задержки для загрузки
   };
 
   const handleUpload = () => {
@@ -86,7 +92,9 @@ export const UploadImageForm = () => {
 
   return (
     <>
-      {isSuccess ? (
+      {isLoading ? (
+        <Preloader />
+      ) : isSuccess ? (
         <div className={style.success_screen}>
           <h1 className={style.success_title}>User successfully registered</h1>
           <img src={img} alt="Success" className={style.success_img} />
