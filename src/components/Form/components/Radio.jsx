@@ -4,17 +4,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./RadioButton.module.css";
 
-export const RadioButtons = ({ selectedPosition, onChange }) => {
-  const positions = [
-    "Frontend developer",
-    "Backend developer",
-    "Designer",
-    "QA",
-  ];
-
+export const RadioButtons = ({ positions, selectedPosition, onChange }) => {
   return (
     <div className={styles.radio_buttons}>
-      <h2 className={styles.radio_buttons__title}>Select your position</h2>
       {positions.map((position) => (
         <label key={position} className={styles.pure_material_radio}>
           <input
@@ -33,7 +25,7 @@ export const RadioButtons = ({ selectedPosition, onChange }) => {
 };
 
 RadioButtons.propTypes = {
+  positions: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedPosition: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
-

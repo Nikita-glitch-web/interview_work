@@ -1,3 +1,4 @@
+// src/components/Form/components/UploadImageForm.jsx
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useRef } from "react";
 import style from "./Form.module.css";
@@ -22,6 +23,14 @@ export const UploadImageForm = () => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
   const [touched, setTouched] = useState({});
+
+  const positions = [
+    "Frontend developer",
+    "Backend developer",
+    "Designer",
+    "QA",
+  ];
+
   const handleChange = (e) => {
     console.log(e.target);
     const { name, value, files } = e.target;
@@ -113,9 +122,16 @@ export const UploadImageForm = () => {
               name={"phone"}
             />
             <div className={style.radio_wrapper}>
+              <h2 className={style.radio_buttons__title}>
+                Select your position
+              </h2>
               <RadioButtons
+                positions={positions}
                 selectedPosition={selectedPosition}
-                onChange={setSelectedPosition}
+                onChange={(value) => {
+                  setSelectedPosition(value);
+                  setFormData({ ...formData, position: value });
+                }}
               />
             </div>
             <div className={style.upload_container}>
