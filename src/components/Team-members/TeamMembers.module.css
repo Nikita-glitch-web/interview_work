@@ -72,22 +72,14 @@ padding-bottom: 40px;
 
 /* Media queries for responsive design */
 
-@media (max-width: 1024px) {
-    
-  .members_card {
-    width: 282px;
-  }
+@media (max-width: 1023px) {
+    .members_list {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (max-width: 768px) {
-     .members_list {
-        grid-template-columns: repeat(2, 1fr);
+    .members_list {
+        grid-template-columns: 1fr;
     }
- 
-}
-
-@media (min-width: 1170px) {
-  .members_card {
-    width: 370px;
-  }
 }

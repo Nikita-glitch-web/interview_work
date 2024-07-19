@@ -8,11 +8,13 @@ import members from './components/Team-members/content';
 
 function App() {
   return (
-    <div className="content_wrapper">
+    <div className="content">
       <Header />
-      <LandingBanner />
-      <TeamMembers members={members} />
-      <UploadImageForm />
+      <div className="content_wrapper">
+        <LandingBanner />
+        <TeamMembers members={members} />
+        <UploadImageForm />
+      </div>
     </div>
   );
 }
