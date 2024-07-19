@@ -2,6 +2,7 @@
 import React from "react";
 import style from "./TeamMembers.module.css";
 import PropTypes from "prop-types";
+import { Button } from "../Controls/Button";
 
 const TeamMembers = ({ members }) => {
   
@@ -10,26 +11,25 @@ const TeamMembers = ({ members }) => {
     <div className={style.team_members}>
       <h2 className={style.members_title}>Working with GET request</h2>
       <div className={style.members_grid}>
-        {members.map((member, index) => (
-          <div key={index} className={style.member_card}>
-            <img
-              src={member.photo}
-              alt={member.name}
-              className={style.member_photo}
-            />
-            <h3 className={style.member_title}>{member.name}</h3>
-            <p className={style.member_text}>{member.position}</p>
-            <div className={style.tooltip}>
-              {member.email}
-              <span className={style.tooltiptext}> {member.email}</span>
-            </div>
-
-            <p className={style.member_text_phone}>{member.phone}</p>
-          </div>
-        ))}
+        <ul className={style.members_list}>
+          {members.map((member, index) => (
+            <li key={index} className={style.member_card}>
+              <img
+                src={member.photo}
+                alt={member.name}
+                className={style.member_photo}
+              />
+              <p className={style.member_text}>{member.name}</p>
+              <p className={style.member_text}>{member.position}</p>
+              <p className={style.member_text}>{member.email}</p>
+              <p className={style.member_text_phone}>{member.phone}</p>
+            </li>
+          ))}
+        </ul>
       </div>
+
       <div className={style.btn_wrapper}>
-        <button className={style.btn}>Show more</button>
+        <Button text="Show more" />
       </div>
     </div>
   );

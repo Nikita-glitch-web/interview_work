@@ -8,7 +8,7 @@ import members from './components/Team-members/content';
 
 function App() {
   return (
-    <div>
+    <div className="content_wrapper">
       <Header />
       <LandingBanner />
       <TeamMembers members={members} />

@@ -110,12 +110,12 @@ export const UploadImageForm = () => {
         <Preloader />
       ) : isSuccess ? (
         <div className={style.success_screen}>
-          <h1 className={style.success_title}>User successfully registered</h1>
+          <h4 className={style.success_title}>User successfully registered</h4>
           <img src={img} alt="Success" className={style.success_img} />
         </div>
       ) : (
         <form className={style.form} onSubmit={handleSubmit}>
-          <h1 className={style.form_title}>Working with POST request</h1>
+          <h3 className={style.form_title}>Working with POST request</h3>
           <div className={style.form_content_wrapper}>
             <Input
               value={formData.name}
@@ -188,7 +188,7 @@ export const UploadImageForm = () => {
               )}
             </div>
             <div className={style.btn_wrapper}>
-              <Button text="Sign up" disabled={!isFormValid} />
+              <Button type="submit" text="Sign up" disabled={!isFormValid} />
             </div>
           </div>
         </form>
