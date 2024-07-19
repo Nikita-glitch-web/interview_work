@@ -1,18 +1,16 @@
-// src/components/Form/components/UploadImageForm.jsx
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import style from "./Form.module.css";
 import { Button } from "../Controls/Button";
 import img from "./Success.png";
-import { Input } from "./components/Input";
-import { RadioButtons } from "./components/Radio";
-import Preloader from "./Preloader.jsx";
+import { Input, InputMasked, RadioButton } from "./components";
+import { Preloader } from "./components";
+import axios from "axios";
 
 export const UploadImageForm = () => {
   const fileInputRef = useRef();
-  const [selectedPosition, setSelectedPosition] =
-    useState("Frontend developer");
-
+  const [positions, setPositions] = useState([]);
+  const [selectedPosition, setSelectedPosition] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -27,12 +25,19 @@ export const UploadImageForm = () => {
   const [touched, setTouched] = useState({});
   const [errors, setErrors] = useState({});
 
-  const positions = [
-    "Frontend developer",
-    "Backend developer",
-    "Designer",
-    "QA",
-  ];
+  useEffect(() => {
+    const fetchPositions = async () => {
+      try {
+        const response = await axios.get(
+          "https://frontend-test-assignment-api.abz.agency/api/v1/positions"
+        );
+        setPositions(response.data.positions);
+      } catch (error) {
+        console.error("Error fetching positions:", error);
+      }
+    };
+    fetchPositions();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -114,7 +119,7 @@ export const UploadImageForm = () => {
           <img src={img} alt="Success" className={style.success_img} />
         </div>
       ) : (
-        <form className={style.form} onSubmit={handleSubmit}>
+        <form className={style.form} id="signUpForm" onSubmit={handleSubmit}>
           <h3 className={style.form_title}>Working with POST request</h3>
           <div className={style.form_content_wrapper}>
             <Input
@@ -135,7 +140,7 @@ export const UploadImageForm = () => {
               name={"email"}
               errorMessage={touched.email && errors.email}
             />
-            <Input
+            <InputMasked
               value={formData.phone}
               type={"tel"}
               tooltip={"+3800000000"}
@@ -149,14 +154,17 @@ export const UploadImageForm = () => {
               <h2 className={style.radio_buttons__title}>
                 Select your position
               </h2>
-              <RadioButtons
-                positions={positions}
-                selectedPosition={selectedPosition}
-                onChange={(value) => {
-                  setSelectedPosition(value);
-                  setFormData({ ...formData, position: value });
-                }}
-              />
+              {positions.map((position) => (
+                <RadioButton
+                  key={position.id}
+                  position={position}
+                  selectedPosition={selectedPosition}
+                  onChange={(value) => {
+                    setSelectedPosition(value);
+                    setFormData({ ...formData, position: value });
+                  }}
+                />
+              ))}
             </div>
             <div className={style.upload_container}>
               <button

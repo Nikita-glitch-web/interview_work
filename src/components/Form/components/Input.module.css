@@ -1,5 +1,10 @@
 .input_wrapper {
   position: relative;
+  padding-bottom: 26px;
+}
+
+.input_wrapper:nth-last-child(2) {
+  padding-bottom: 0px;
 }
 
 .form_group {
@@ -40,7 +45,7 @@
 .form_label,
 .form_field:focus ~ .form_label {
   position: absolute;
-  top: 10px;
+  top: 7px;
   left: 10px;
   display: block;
   transition: 0.2s;
@@ -48,6 +53,14 @@
   padding: 0 5px;
   color: var(--input-placeholder-color);
   background: var(--background-color);
+}
+
+.label_phone {
+  padding-left: 15px;
+  color: #7e7e7e;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
 }
 
 .form_field.notValid:focus ~ .form_label {
@@ -69,9 +82,12 @@
   padding-bottom: var(--font-size-regular);
 }
 
-.error_message, .tooltip {
+.error_message,
+.tooltip {
   font-size: var(--font-size-small);
   padding: 7px 18px;
+  position: absolute;
+  bottom: 0;
 }
 
 .error_message {
@@ -82,4 +98,3 @@
   font-size: var(--font-size-small);
   color: var(--input-placeholder-color);
 }
-

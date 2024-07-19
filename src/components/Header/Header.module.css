@@ -36,4 +36,11 @@
   padding-right: 24px;
 }
 
-
+@media (max-width: 768px) {
+  .header_nav_wrapper {
+    padding-right: 10px;
+  }
+  .header_logo_box {
+    padding-left: 10px;
+  }
+}

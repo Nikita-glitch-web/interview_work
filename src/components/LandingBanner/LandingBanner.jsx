@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import style from "./LandingBanner.module.css";
-import { Button } from "../Controls/Button";
+import { Link } from "../Controls";
 
 export const LandingBanner = () => {
   return (
@@ -10,19 +10,17 @@ export const LandingBanner = () => {
         <div className={style.banner_text_box}>
           <h1 className={style.banner_title}>
             Test assignment for
-            <br /> front-end developer
+            front-end developer
           </h1>
           <p className={style.bannner_text}>
             What defines a good front-end developer is one that
-            <br />
             has skilled knowledge of HTML, CSS, JS with a vast
-            <br />
             understanding of User design thinking as theyll be
-            <br /> building web interfaces with accessibility in mind.
-            <br /> They should also be excited to learn, as the world of
-            <br /> Front-End Development keeps evolving.
+            building web interfaces with accessibility in mind.
+            They should also be excited to learn, as the world of
+            Front-End Development keeps evolving.
           </p>
-          <Button text="Sign up" />
+          <Link text="Sign up"  href={'#signUpForm'} className={style.banner_btn}/>
         </div>
       </div>
     </div>

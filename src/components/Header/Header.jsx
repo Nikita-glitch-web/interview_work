@@ -2,7 +2,7 @@
 import React from "react";
 import style from "./Header.module.css";
 import img from "./header_logo.png";
-import { Button } from "../Controls/Button";
+import { Link } from "../Controls";
 
 export const Header = () => {
   return (
@@ -16,10 +16,10 @@ export const Header = () => {
         </div>
         <div className={style.header_nav_wrapper}>
           <div className={style.header_btn_wrapper}>
-            <Button text="Users" />
+            <Link text="Users" href={"#teamMembers"} className={style.test} />
           </div>
           <div className={style.header_btn_wrapper}>
-            <Button text="Sign up" />
+            <Link text="Sign up" href={"#signUpForm"} className={style.test} />
           </div>
         </div>
       </div>
