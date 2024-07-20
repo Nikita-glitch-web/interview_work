@@ -63,10 +63,12 @@
   object-fit: cover;
 }
 
-
 .radio_buttons__title {
   font-size: 16px;
   padding-top: 20px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
 }
 
 .form_label {
@@ -104,8 +106,8 @@
   height: 50.5px;
   color: var(--input-placeholder-color);
   background: white;
-  border: 1px solid #ccc; 
-  border-radius: 4px; 
+  border: 1px solid #ccc;
+  border-radius: 4px;
   width: 100%;
   overflow: hidden;
   box-sizing: border-box;
@@ -114,25 +116,25 @@
 }
 
 .img_input {
-  display: none; 
+  display: none;
 }
 
 .upload_button {
-    background: white;
-    color: black;
-    border: none;
-    height: 100%;
-    padding: 0 20px;
-    cursor: pointer;
-    font-size: var(--font-size-regular);
-    font-weight: 400;
-    border-radius: 4px;
-    border: 1px solid black;
-    border-right: 1px solid black;
+  background: white;
+  color: black;
+  border: none;
+  height: 100%;
+  padding: 0 20px;
+  cursor: pointer;
+  font-size: var(--font-size-regular);
+  font-weight: 400;
+  border-radius: 4px;
+  border: 1px solid black;
+  border-right: 1px solid black;
 }
 
 .upload_button:hover {
-  background: #f1f1f1; 
+  background: #f1f1f1;
 }
 
 .submit_btn {
@@ -172,20 +174,20 @@
 }
 
 .btn_wrapper {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 10px;
 }
 
 .success_img {
-    width: 328px;
-    height: 290px;
+  width: 328px;
+  height: 290px;
 }
 
 .input_error {
-border: 2px solid #CB3D40;
-color: #CB3D40;
+  border: 2px solid #cb3d40;
+  color: #cb3d40;
 }
 
 .radio_wrapper {
@@ -194,19 +196,18 @@ color: #CB3D40;
 }
 
 .success_screen {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 30px;
 }
 
 .success_title {
-font-size: 40px;
-font-weight: 400;
-line-height: 40px;
-text-align: center;
-
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 40px;
+  text-align: center;
 }
 
 .custom_radio .radio_button {
@@ -214,7 +215,7 @@ text-align: center;
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 2px solid #00f; 
+  border: 2px solid #00f;
   margin-right: 10px;
   position: relative;
   transition: all 0.3s ease;
@@ -228,10 +229,10 @@ text-align: center;
 .custom_radio .radio_button::after {
   content: "";
   display: block;
-  width: 5px; 
+  width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: #00f; 
+  background: #00f;
   position: absolute;
   top: 50%;
   left: 50%;
