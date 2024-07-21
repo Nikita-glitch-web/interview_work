@@ -6,24 +6,17 @@ import img from "./Success.png";
 import { Input, InputMasked, RadioButton } from "./components";
 import { Preloader } from "./components";
 import axios from "axios";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 export const UploadImageForm = () => {
   const fileInputRef = useRef();
   const [positions, setPositions] = useState([]);
   const [selectedPosition, setSelectedPosition] = useState("");
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    position: "",
-    photo: null,
-  });
-
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [touched, setTouched] = useState({});
-  const [errors, setErrors] = useState({});
+  const [imageError, setImageError] = useState("");
 
   useEffect(() => {
     const fetchPositions = async () => {
@@ -39,75 +32,68 @@ export const UploadImageForm = () => {
     fetchPositions();
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (files) {
-      const file = files[0];
-      setFormData({
-        ...formData,
-        [name]: file,
-      });
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      phone: "",
+      position: "",
+      photo: null,
+    },
+    validationSchema: Yup.object({
+      name: Yup.string().required("Name is required"),
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Email is required"),
+      phone: Yup.string().required("Phone is required"),
+      position: Yup.string().required("Position is required"),
+      photo: Yup.mixed().required("Photo is required"),
+    }),
+    onSubmit: async (values) => {
+      setIsLoading(true);
+      setTimeout(() => {
+        console.log(values);
+        setIsSuccess(true);
+        setIsLoading(false);
+      }, 2000); // Симуляция задержки сети
+    },
+  });
 
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreviewUrl(reader.result);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
-  };
-
-  const handleBlur = (e) => {
-    const { name } = e.target;
-    setTouched({
-      ...touched,
-      [name]: true,
+  const validateImage = (file) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => reject(new Error("Invalid image"));
+      img.src = URL.createObjectURL(file);
     });
-    validateForm();
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!formData.name) newErrors.name = "Name is required";
-    if (!formData.email) newErrors.email = "Email is required";
-    if (!formData.phone) newErrors.phone = "Phone is required";
-    if (!formData.position) newErrors.position = "Position is required";
-    if (!formData.photo) newErrors.photo = "Photo is required";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        await validateImage(file);
+        formik.setFieldValue("photo", file);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreviewUrl(reader.result);
+        };
+        reader.readAsDataURL(file);
 
-    setIsLoading(true);
-    setTimeout(() => {
-      console.log(formData);
-      setIsSuccess(true);
-      setIsLoading(false);
-    }, 2000); // Симуляция задержки для загрузки
+        setImageError("");
+      } catch (error) {
+        setImageError("The selected file is not a valid image.");
+        formik.setFieldValue("photo", null);
+      }
+    }
   };
 
   const handleUpload = () => {
     fileInputRef.current.click();
-    if (!formData.photo) {
-      alert("Please select a file first");
-      return;
-    }
-    alert("Image uploaded successfully!");
   };
 
-  const isFormValid =
-    formData.name &&
-    formData.email &&
-    formData.phone &&
-    formData.position &&
-    formData.photo;
+  const isFormValid = formik.isValid && formik.dirty;
 
   return (
     <>
@@ -119,36 +105,43 @@ export const UploadImageForm = () => {
           <img src={img} alt="Success" className={style.success_img} />
         </div>
       ) : (
-        <form className={style.form} id="signUpForm" onSubmit={handleSubmit}>
+        <form
+          className={style.form}
+          id="signUpForm"
+          onSubmit={formik.handleSubmit}
+        >
           <h3 className={style.form_title}>Working with POST request</h3>
           <div className={style.form_content_wrapper}>
             <Input
-              value={formData.name}
-              type={"text"}
+              id="name"
+              value={formik.values.name}
+              type="text"
               placeholder="Your name"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              name={"name"}
-              errorMessage={touched.name && errors.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              name="name"
+              errorMessage={formik.touched.name && formik.errors.name}
             />
             <Input
-              value={formData.email}
-              type={"email"}
+              id="email"
+              value={formik.values.email}
+              type="email"
               placeholder="Email"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              name={"email"}
-              errorMessage={touched.email && errors.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              name="email"
+              errorMessage={formik.touched.email && formik.errors.email}
             />
             <InputMasked
-              value={formData.phone}
-              type={"tel"}
+              id="phone"
+              value={formik.values.phone}
+              type="tel"
               tooltip={"+3800000000"}
               placeholder="Phone"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              name={"phone"}
-              errorMessage={touched.phone && errors.phone}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              name="phone"
+              errorMessage={formik.touched.phone && formik.errors.phone}
             />
             <div className={style.radio_wrapper}>
               <h2 className={style.radio_buttons__title}>
@@ -161,7 +154,7 @@ export const UploadImageForm = () => {
                   selectedPosition={selectedPosition}
                   onChange={(value) => {
                     setSelectedPosition(value);
-                    setFormData({ ...formData, position: value });
+                    formik.setFieldValue("position", value);
                   }}
                 />
               ))}
@@ -179,20 +172,26 @@ export const UploadImageForm = () => {
                 className={style.img_input}
                 type="file"
                 name="photo"
-                onChange={handleChange}
-                onBlur={handleBlur}
+                onChange={handleFileChange}
+                onBlur={formik.handleBlur}
+                style={{ display: "none" }}
               />
               <div className={style.image_preview_container}>
-                {imagePreviewUrl && (
+                {imagePreviewUrl ? (
                   <img
                     src={imagePreviewUrl}
                     alt="Selected"
                     className={style.image_preview}
                   />
+                ) : (
+                  <span className={style.placeholder}>Upload your photo</span>
                 )}
               </div>
-              {touched.photo && errors.photo && (
-                <div className={style.error_message}>{errors.photo}</div>
+              {formik.touched.photo && formik.errors.photo && (
+                <div className={style.error_message}>{formik.errors.photo}</div>
+              )}
+              {imageError && (
+                <div className={style.error_message}>{imageError}</div>
               )}
             </div>
             <div className={style.btn_wrapper}>

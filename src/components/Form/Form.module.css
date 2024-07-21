@@ -244,3 +244,56 @@
 .custom_radio input[type="radio"]:checked + .radio_button::after {
   opacity: 1;
 }
+
+.upload_container {
+  display: flex;
+  align-items: center;
+}
+
+.upload_button {
+  padding: 10px;
+  padding-left: 15px;
+  cursor: pointer;
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+
+  background-color: #fff;
+  padding-right: 15px;
+}
+
+.image_preview_container {
+  margin-left: 10px;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+      padding-right: 66px;
+
+}
+
+.image_preview {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+.placeholder {
+  color: #ccc;
+}
+
+.img_input {
+  display: none;
+}
+
+.error_message {
+  color: red;
+  font-size: 12px;
+}
+
+.btn_wrapper {
+  margin-top: 20px;
+}
