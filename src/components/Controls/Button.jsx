@@ -1,21 +1,21 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
-import PropTypes from 'prop-types';
-import style from './Button.module.css';
+import React from "react";
+import PropTypes from "prop-types";
+import style from "./Button.module.css";
 
 export const Button = ({
   text,
   onClick,
   disabled,
-  type = 'button',
+  type = "button",
   className,
 }) => {
   const classNames = [
     style.button,
     className,
-    disabled ? style.disabled : '',
-  ].join(' ');
-  console.log(classNames);
+    disabled ? style.disabled : "",
+  ].join(" ");
+
   return (
     <button
       className={classNames}
@@ -33,7 +33,7 @@ Button.propTypes = {
   onClick: PropTypes.func,
   disabled: PropTypes.bool,
   className: PropTypes.string,
-  type: PropTypes.oneOf(['button', 'submit', 'reset']),
+  type: PropTypes.oneOf(["button", "submit", "reset"]),
 };
 
 Button.defaultProps = {

@@ -51,7 +51,10 @@ padding-top: 110px;
 }
 
 
-
+.member_text_wrapper {
+    max-width: 80%;
+    margin: 0 auto;
+}
 
 .member_text {
   padding: 0px;
@@ -66,9 +69,10 @@ padding-top: 110px;
 }
 
 .member_title {
-  padding: 0px;
+  padding-bottom: 20px;
   margin: 0px;
 }
+
 
 
 /* Media queries for responsive design */

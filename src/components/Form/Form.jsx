@@ -51,11 +51,36 @@ export const UploadImageForm = () => {
     }),
     onSubmit: async (values) => {
       setIsLoading(true);
-      setTimeout(() => {
-        console.log(values);
-        setIsSuccess(true);
+
+      const formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("email", values.email);
+      formData.append("phone", values.phone);
+      formData.append("position_id", selectedPosition);
+      formData.append("photo", values.photo);
+
+      try {
+        const response = await axios.post(
+          "https://frontend-test-assignment-api.abz.agency/api/v1/users",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        if (response.status === 201) {
+          setIsSuccess(true);
+        } else {
+          setImageError("Failed to submit data.");
+        }
+      } catch (error) {
+        console.error("Error submitting data:", error);
+        setImageError("Failed to submit data.");
+      } finally {
         setIsLoading(false);
-      }, 2000); // Симуляция задержки сети
+      }
     },
   });
 

@@ -52,16 +52,18 @@ const TeamMembers = () => {
         <ul className={style.members_list}>
           {members.map((member, index) => (
             <li key={index} className={style.member_card}>
-              <img
-                src={member.photo}
-                alt={member.name}
-                className={style.member_photo}
-                onError={handleImageError}
-              />
-              <p className={style.member_text}>{member.name}</p>
-              <p className={style.member_text}>{member.position}</p>
-              <p className={style.member_text}>{member.email}</p>
-              <p className={style.member_text_phone}>{member.phone}</p>
+              <div className={style.member_text_wrapper}>
+                <img
+                  src={member.photo}
+                  alt={member.name}
+                  className={style.member_photo}
+                  onError={handleImageError}
+                />
+                <p className={style.member_title}>{member.name}</p>
+                <p className={style.member_text}>{member.position}</p>
+                <p className={style.member_text}>{member.email}</p>
+                <p className={style.member_text}>{member.phone}</p>
+              </div>
             </li>
           ))}
         </ul>

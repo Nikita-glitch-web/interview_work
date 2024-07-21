@@ -57,10 +57,9 @@
   margin-bottom: 7px;
 }
 
-.radio_buttons__title {
-  font-size: 16px;
-  font-weight: 400;
+.radio_buttons_title {
   line-height: 26px;
+  font-size: 16px;
 }
 
 /* Circle */
