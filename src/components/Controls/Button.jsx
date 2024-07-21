@@ -16,6 +16,9 @@ export const Button = ({
     disabled ? style.disabled : "",
   ].join(" ");
 
+  console.log("Button classNames:", classNames);
+  console.log("Button props:", { text, onClick, disabled, type, className });
+
   return (
     <button
       className={classNames}

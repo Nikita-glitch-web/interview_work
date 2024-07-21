@@ -120,6 +120,10 @@ export const UploadImageForm = () => {
 
   const isFormValid = formik.isValid && formik.dirty;
 
+  console.log("Formik values:", formik.values);
+  console.log("Formik errors:", formik.errors);
+  console.log("Is form valid:", isFormValid);
+
   return (
     <>
       {isLoading ? (
@@ -220,7 +224,11 @@ export const UploadImageForm = () => {
               )}
             </div>
             <div className={style.btn_wrapper}>
-              <Button type="submit" text="Sign up" disabled={!isFormValid} />
+              <Button
+                type="submit"
+                text="Sign up"
+                disabled={!formik.isValid || !formik.dirty}
+              />
             </div>
           </div>
         </form>
