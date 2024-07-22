@@ -219,10 +219,10 @@ export const UploadImageForm = () => {
               {formik.touched.photo && formik.errors.photo && (
                 <div className={style.error_message}>{formik.errors.photo}</div>
               )}
-              {imageError && (
-                <div className={style.error_message}>{imageError}</div>
-              )}
             </div>
+            {imageError && (
+              <div className={style.error_message}>{imageError}</div>
+            )}
             <div className={style.btn_wrapper}>
               <Button
                 type="submit"

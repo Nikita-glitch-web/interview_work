@@ -1,24 +1,27 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect, useCallback } from 'react';
-import style from './TeamMembers.module.css';
-import axios from 'axios';
-import { Button } from '../Controls/Button';
-import { Preloader } from '../Form/components';
+import React, { useState, useEffect } from "react";
+import style from "./TeamMembers.module.css";
+import axios from "axios";
+import { Button } from "../Controls/Button";
+import { Preloader } from "../Form/components";
 
-const TeamMembers = (props) => {
+const TeamMembers = () => {
   const [members, setMembers] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [hasMore, setHasMore] = useState(true);
-  console.log();
-  
-  const fetchMembers = async () => {
-    console.log('>>>>>>>>>');
+
+  useEffect(() => {
+    fetchMembers(page);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const fetchMembers = async (page) => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=3`
+        `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=6`
       );
       if (response.data.users.length > 0) {
         setMembers((prevMembers) => [...prevMembers, ...response.data.users]);
@@ -32,27 +35,18 @@ const TeamMembers = (props) => {
     }
   };
 
-  useEffect(() => {
-    console.log('>>>>>>>11111', props);
-    fetchMembers();
-  }, []);
-
   const handleShowMore = () => {
-    setPage(
-      (prevPage) => prevPage + 1,
-      () => {
-        fetchMembers();
-      }
-    );
+    setPage((prevPage) => prevPage + 1);
+    fetchMembers(page + 1);
   };
 
   const handleImageError = (event) => {
-    event.target.src = 'https://via.placeholder.com/80';
+    event.target.src = "https://via.placeholder.com/80";
     event.target.className = style.member_photo;
   };
 
   return (
-    <div id='teamMembers' className={style.team_members}>
+    <div id="teamMembers" className={style.team_members}>
       <h2 className={style.members_title}>Working with GET request</h2>
       <div className={style.members_grid}>
         <ul className={style.members_list}>
@@ -78,7 +72,7 @@ const TeamMembers = (props) => {
       {error && <div>Error: {error.message}</div>}
       <div className={style.btn_wrapper}>
         {hasMore && !loading && (
-          <Button text='Show more' onClick={handleShowMore} />
+          <Button text="Show more" onClick={handleShowMore} />
         )}
       </div>
     </div>
