@@ -10,7 +10,7 @@
 } */
 
 .banner_content {
-  background-image: url("./LandingBanner.png");
+  background-image: url("./images/LandingBanner.png");
   width: 100%;
   height: 650px;
   display: flex;
