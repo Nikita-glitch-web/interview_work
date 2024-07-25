@@ -5,7 +5,6 @@ import { Button } from "../Controls/Button";
 import img from "./Success.png";
 import { Input, InputMasked, RadioButton } from "./components";
 import { Preloader } from "./components";
-import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -17,14 +16,16 @@ export const UploadImageForm = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [imageError, setImageError] = useState("");
+  const [fileName, setFileName] = useState("");
 
   useEffect(() => {
     const fetchPositions = async () => {
       try {
-        const response = await axios.get(
+        const response = await fetch(
           "https://frontend-test-assignment-api.abz.agency/api/v1/positions"
         );
-        setPositions(response.data.positions);
+        const data = await response.json();
+        setPositions(data.positions);
       } catch (error) {
         console.error("Error fetching positions:", error);
       }
@@ -32,23 +33,32 @@ export const UploadImageForm = () => {
     fetchPositions();
   }, []);
 
+  const initialValues = {
+    name: "",
+    email: "",
+    phone: "",
+    position: "",
+    photo: null,
+  };
+
+  const validationSchema = Yup.object({
+    name: Yup.string()
+      .min(3, "Name must be at least 3 characters long")
+      .required("Name is required"),
+    email: Yup.string()
+      .email("Invalid email address")
+      .min(3, "Email must be at least 3 characters long")
+      .required("Email is required"),
+    phone: Yup.string()
+      .min(3, "Phone must be at least 3 characters long")
+      .required("Phone is required"),
+    position: Yup.string().required("Position is required"),
+    photo: Yup.mixed().required("Photo is required"),
+  });
+
   const formik = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      phone: "",
-      position: "",
-      photo: null,
-    },
-    validationSchema: Yup.object({
-      name: Yup.string().required("Name is required"),
-      email: Yup.string()
-        .email("Invalid email address")
-        .required("Email is required"),
-      phone: Yup.string().required("Phone is required"),
-      position: Yup.string().required("Position is required"),
-      photo: Yup.mixed().required("Photo is required"),
-    }),
+    initialValues,
+    validationSchema,
     onSubmit: async (values) => {
       setIsLoading(true);
 
@@ -60,12 +70,13 @@ export const UploadImageForm = () => {
       formData.append("photo", values.photo);
 
       try {
-        const response = await axios.post(
+        const response = await fetch(
           "https://frontend-test-assignment-api.abz.agency/api/v1/users",
-          formData,
           {
+            method: "POST",
+            body: formData,
             headers: {
-              "Content-Type": "multipart/form-data",
+              Accept: "application/json",
             },
           }
         );
@@ -76,7 +87,6 @@ export const UploadImageForm = () => {
           setImageError("Failed to submit data.");
         }
       } catch (error) {
-        console.error("Error submitting data:", error);
         setImageError("Failed to submit data.");
       } finally {
         setIsLoading(false);
@@ -106,6 +116,7 @@ export const UploadImageForm = () => {
         };
         reader.readAsDataURL(file);
 
+        setFileName(file.name);
         setImageError("");
       } catch (error) {
         setImageError("The selected file is not a valid image.");
@@ -118,11 +129,14 @@ export const UploadImageForm = () => {
     fileInputRef.current.click();
   };
 
-  const isFormValid = formik.isValid && formik.dirty;
 
-  console.log("Formik values:", formik.values);
-  console.log("Formik errors:", formik.errors);
-  console.log("Is form valid:", isFormValid);
+  const getShortFileName = (name) => {
+    const maxLength = 20;
+    if (name.length <= maxLength) {
+      return name;
+    }
+    return `${name.substring(0, 7)}...${name.substring(name.length - 10)}`;
+  };
 
   return (
     <>
@@ -206,6 +220,11 @@ export const UploadImageForm = () => {
                 style={{ display: "none" }}
               />
               <div className={style.image_preview_container}>
+                {fileName && (
+                  <div className={style.file_name}>
+                    {getShortFileName(fileName)}
+                  </div>
+                )}
                 {imagePreviewUrl ? (
                   <img
                     src={imagePreviewUrl}
@@ -224,11 +243,9 @@ export const UploadImageForm = () => {
               <div className={style.error_message}>{imageError}</div>
             )}
             <div className={style.btn_wrapper}>
-              <Button
-                type="submit"
-                text="Sign up"
-                disabled={!formik.isValid || !formik.dirty}
-              />
+              <Button type="submit" disabled={!formik.isValid || !formik.dirty}>
+                Sign Up
+              </Button>
             </div>
           </div>
         </form>

@@ -3,13 +3,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import style from './Button.module.css';
 
-export const Link = ({ text, className, href }) => {
+export const Link = ({ children, className, href }) => {
   const classNames = [style.button, className].join(' ');
-  return <a {...{ className: classNames, href }}>{text}</a>; 
+  return <a {...{ className: classNames, href }}>{children}</a>; 
 };
 
 Link.propTypes = {
-  text: PropTypes.string.isRequired,
+  children: PropTypes.string.isRequired,
   href: PropTypes.string,
   className: PropTypes.string,
 };

@@ -21,7 +21,7 @@ export const InputMasked = ({
         {(inputProps) => <Input {...{ ...inputProps }} placeholder='Phone' />}
       </InputMask>
       <label className={styles.label_phone} htmlFor='phone'>
-        +38 (XXX) XXX - XX - XX
+        +38 (XX) XXX - XX - XX
       </label>
     </div>
   );

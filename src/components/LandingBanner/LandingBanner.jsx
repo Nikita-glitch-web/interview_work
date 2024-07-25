@@ -20,7 +20,7 @@ export const LandingBanner = () => {
             They should also be excited to learn, as the world of
             Front-End Development keeps evolving.
           </p>
-          <Link text="Sign up"  href={'#signUpForm'} className={style.banner_btn}/>
+          <Link  href={'#signUpForm'} className={style.banner_btn}>Sign up</Link>
         </div>
       </div>
     </div>

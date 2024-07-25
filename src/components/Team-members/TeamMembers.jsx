@@ -1,7 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
 import style from "./TeamMembers.module.css";
-import axios from "axios";
 import { Button } from "../Controls/Button";
 import { Preloader } from "../Form/components";
 
@@ -20,11 +19,12 @@ const TeamMembers = () => {
   const fetchMembers = async (page) => {
     setLoading(true);
     try {
-      const response = await axios.get(
+      const response = await fetch(
         `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=6`
       );
-      if (response.data.users.length > 0) {
-        setMembers((prevMembers) => [...prevMembers, ...response.data.users]);
+      const data = await response.json();
+      if (data.users.length > 0) {
+        setMembers((prevMembers) => [...prevMembers, ...data.users]);
       } else {
         setHasMore(false);
       }
@@ -72,7 +72,7 @@ const TeamMembers = () => {
       {error && <div>Error: {error.message}</div>}
       <div className={style.btn_wrapper}>
         {hasMore && !loading && (
-          <Button text="Show more" onClick={handleShowMore} />
+          <Button onClick={handleShowMore}>Show more</Button>
         )}
       </div>
     </div>

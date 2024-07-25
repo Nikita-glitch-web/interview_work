@@ -8,7 +8,7 @@ import TeamMembers from './components/Team-members/TeamMembers';
 
 function App() {
   useEffect(() => {
-    console.log('>>>>>>>>>>>========')
+    console.log("App works")
   }, [])
   return (
     <div className="content">

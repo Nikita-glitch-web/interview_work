@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import style from "./Button.module.css";
 
 export const Button = ({
-  text,
+  children,
   onClick,
   disabled,
   type = "button",
@@ -16,9 +16,6 @@ export const Button = ({
     disabled ? style.disabled : "",
   ].join(" ");
 
-  console.log("Button classNames:", classNames);
-  console.log("Button props:", { text, onClick, disabled, type, className });
-
   return (
     <button
       className={classNames}
@@ -26,13 +23,13 @@ export const Button = ({
       disabled={disabled}
       type={type}
     >
-      {text}
+      {children}
     </button>
   );
 };
 
 Button.propTypes = {
-  text: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
   disabled: PropTypes.bool,
   className: PropTypes.string,

@@ -3,11 +3,11 @@
   width: 100%;
 }
 
-/* @media (max-width: 1024px) {
-  .banner_content_box {
-    max-width: 1024px;
+@media (max-width: 1024px) {
+  .banner_content {
+    background-image: url("./images/Desktop-screen.png");
   }
-} */
+}
 
 .banner_content {
   background-image: url("./images/LandingBanner.png");
@@ -48,16 +48,33 @@
 
 .banner_btn {
   margin-top: 25px;
+  transition: background-color 0.3s, transform 0.3s;
+
 }
 
 @media (max-width: 768px) {
   .banner_content {
-    height: 500px;
+    background-image: url("./images/Mobile-screen.png");
   }
 
     .banner_text_box {
     padding-left: 15px;
     padding-right: 15px;
+  } 
+}
+
+@media (max-width: 350px) {
+  .banner_content {
+    background-image: url("./images/Xs-screen.png");
   }
 }
+
+@media (min-width: 1170px) {
+  .banner_content {
+    background-image: url("./images/Large-screen.png");
+  }
+
+}
+
+
 

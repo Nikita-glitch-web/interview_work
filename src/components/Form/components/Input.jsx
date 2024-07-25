@@ -4,7 +4,6 @@ import styles from './Input.module.css';
 import PropTypes from "prop-types";
 
 export const Input = ({ errorMessage, value, type, placeholder, onFocus, onBlur, onChange, name, tooltip }) => {
-  console.log(name)
   const id=`${name + Date.now()}`;
   return (
     <div className={styles.input_wrapper}>
