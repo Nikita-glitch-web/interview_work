@@ -9,3 +9,4 @@ Currently, two official plugins are available:
 
 
 
+In this project i use Vite and some React frameWorks 

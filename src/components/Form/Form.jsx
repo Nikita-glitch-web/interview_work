@@ -12,7 +12,6 @@ export const UploadImageForm = () => {
   const fileInputRef = useRef();
   const [positions, setPositions] = useState([]);
   const [selectedPosition, setSelectedPosition] = useState("");
-  const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [imageError, setImageError] = useState("");
@@ -103,32 +102,65 @@ export const UploadImageForm = () => {
     });
   };
 
-  const handleFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      try {
-        await validateImage(file);
-        formik.setFieldValue("photo", file);
+ const handleFileChange = async (e) => {
+   const file = e.target.files[0];
+   if (file) {
+     // Validate file type
+     const validTypes = ["image/jpeg", "image/jpg", "image/png"];
+     if (!validTypes.includes(file.type)) {
+       setImageError("Only JPG and PNG images are allowed.");
+       formik.setFieldValue("photo", null);
+       return;
+     }
 
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImagePreviewUrl(reader.result);
-        };
-        reader.readAsDataURL(file);
+     // Validate file size (max 5MB)
+     const maxSize = 5 * 1024 * 1024; // 5MB
+     if (file.size > maxSize) {
+       setImageError("Image size should not exceed 5MB.");
+       formik.setFieldValue("photo", null);
+       return;
+     }
 
-        setFileName(file.name);
-        setImageError("");
-      } catch (error) {
-        setImageError("The selected file is not a valid image.");
-        formik.setFieldValue("photo", null);
-      }
-    }
-  };
+     // Validate image dimensions (min 70x70 and max 5000x5000)
+     const validateImageSize = (file) => {
+       return new Promise((resolve, reject) => {
+         const img = new Image();
+         img.onload = () => {
+           if (img.width < 200 || img.height < 200) {
+             reject(
+               new Error("Image dimensions should be at least 70x70 pixels.")
+             );
+           } else if (img.width > 5000 || img.height > 5000) {
+             reject(
+               new Error("Image dimensions should not exceed 5000x5000 pixels.")
+             );
+           } else {
+             resolve(true);
+           }
+         };
+         img.onerror = () => reject(new Error("Invalid image."));
+         img.src = URL.createObjectURL(file);
+       });
+     };
+
+     try {
+       await validateImage(file);
+       await validateImageSize(file);
+       formik.setFieldValue("photo", file);
+       setFileName(file.name);
+       setImageError("");
+     } catch (error) {
+       setImageError(error.message);
+       formik.setFieldValue("photo", null);
+     }
+   }
+ };
+
+
 
   const handleUpload = () => {
     fileInputRef.current.click();
   };
-
 
   const getShortFileName = (name) => {
     const maxLength = 20;
@@ -220,17 +252,10 @@ export const UploadImageForm = () => {
                 style={{ display: "none" }}
               />
               <div className={style.image_preview_container}>
-                {fileName && (
+                {fileName ? (
                   <div className={style.file_name}>
                     {getShortFileName(fileName)}
                   </div>
-                )}
-                {imagePreviewUrl ? (
-                  <img
-                    src={imagePreviewUrl}
-                    alt="Selected"
-                    className={style.image_preview}
-                  />
                 ) : (
                   <span className={style.placeholder}>Upload your photo</span>
                 )}
