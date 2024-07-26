@@ -300,3 +300,15 @@
 .file_name {
   color: #000;
 }
+
+.error_border {
+  border: 2px solid #CB3D40;
+}
+
+.error_btn_input {
+  border-right: 2px solid #CB3D40;
+  border-radius: 0px;
+  border-left: none;
+  border-top: none;
+  border-bottom: none;
+}

@@ -234,11 +234,17 @@ export const UploadImageForm = () => {
                 />
               ))}
             </div>
-            <div className={style.upload_container}>
+            <div
+              className={`${style.upload_container} ${
+                imageError ? style.error_border : ""
+              }`}
+            >
               <button
                 type="button"
                 onClick={handleUpload}
-                className={style.upload_button}
+                className={`${style.upload_button} ${
+                  imageError ? style.error_btn_input : ""
+                }`}
               >
                 Upload
               </button>
