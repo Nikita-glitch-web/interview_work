@@ -128,11 +128,11 @@ export const UploadImageForm = () => {
          img.onload = () => {
            if (img.width < 200 || img.height < 200) {
              reject(
-               new Error("Image dimensions should be at least 70x70 pixels.")
+               new Error("Image size should be at least 200x200px")
              );
            } else if (img.width > 5000 || img.height > 5000) {
              reject(
-               new Error("Image dimensions should not exceed 5000x5000 pixels.")
+               new Error("Image size should not exceed 5000x5000px")
              );
            } else {
              resolve(true);
