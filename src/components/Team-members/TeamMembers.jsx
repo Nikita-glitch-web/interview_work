@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
+import classNames from "classnames";
 import style from "./TeamMembers.module.css";
 import { Button } from "../Controls/Button";
 import { Preloader } from "../Form/components";
@@ -56,7 +57,9 @@ const TeamMembers = () => {
                 <img
                   src={member.photo}
                   alt={member.name}
-                  className={style.member_photo}
+                  className={classNames(style.member_photo, {
+                    [style.error_photo]: !member.photo,
+                  })}
                   onError={handleImageError}
                 />
                 <p className={style.member_title}>{member.name}</p>

@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
-import InputMask from 'react-input-mask';
-import { Input } from './Input';
-import styles from './Input.module.css';
+import PropTypes from "prop-types";
+import InputMask from "react-input-mask";
+import { Input } from "./Input";
+import styles from "./Input.module.css";
 
 export const InputMasked = ({
   value,
@@ -14,13 +14,13 @@ export const InputMasked = ({
   return (
     <div>
       <InputMask
-        mask='+380 (99) 999-99-99'
-        id='phone'
+        mask="+380 (99) 999-99-99"
+        id="phone"
         {...{ value, placeholder, onFocus, onChange, onBlur, name }}
       >
-        {(inputProps) => <Input {...{ ...inputProps }} placeholder='Phone' />}
+        {(inputProps) => <Input {...{ ...inputProps }} placeholder="Phone" />}
       </InputMask>
-      <label className={styles.label_phone} htmlFor='phone'>
+      <label className={styles.label_phone} htmlFor="phone">
         +38 (XX) XXX - XX - XX
       </label>
     </div>

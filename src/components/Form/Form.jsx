@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useRef } from "react";
+import classNames from "classnames";
 import style from "./Form.module.css";
 import { Button } from "../Controls/Button";
 import img from "./Success.png";
@@ -102,61 +103,55 @@ export const UploadImageForm = () => {
     });
   };
 
- const handleFileChange = async (e) => {
-   const file = e.target.files[0];
-   if (file) {
-     // Validate file type
-     const validTypes = ["image/jpeg", "image/jpg", "image/png"];
-     if (!validTypes.includes(file.type)) {
-       setImageError("Only JPG and PNG images are allowed.");
-       formik.setFieldValue("photo", null);
-       return;
-     }
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validate file type
+      const validTypes = ["image/jpeg", "image/jpg", "image/png"];
+      if (!validTypes.includes(file.type)) {
+        setImageError("Only JPG and PNG images are allowed.");
+        formik.setFieldValue("photo", null);
+        return;
+      }
 
-     // Validate file size (max 5MB)
-     const maxSize = 5 * 1024 * 1024; // 5MB
-     if (file.size > maxSize) {
-       setImageError("Image size should not exceed 5MB.");
-       formik.setFieldValue("photo", null);
-       return;
-     }
+      // Validate file size (max 5MB)
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      if (file.size > maxSize) {
+        setImageError("Image size should not exceed 5MB.");
+        formik.setFieldValue("photo", null);
+        return;
+      }
 
-     // Validate image dimensions (min 70x70 and max 5000x5000)
-     const validateImageSize = (file) => {
-       return new Promise((resolve, reject) => {
-         const img = new Image();
-         img.onload = () => {
-           if (img.width < 200 || img.height < 200) {
-             reject(
-               new Error("Image size should be at least 200x200px")
-             );
-           } else if (img.width > 5000 || img.height > 5000) {
-             reject(
-               new Error("Image size should not exceed 5000x5000px")
-             );
-           } else {
-             resolve(true);
-           }
-         };
-         img.onerror = () => reject(new Error("Invalid image."));
-         img.src = URL.createObjectURL(file);
-       });
-     };
+      // Validate image dimensions (min 70x70 and max 5000x5000)
+      const validateImageSize = (file) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => {
+            if (img.width < 200 || img.height < 200) {
+              reject(new Error("Image size should be at least 200x200px"));
+            } else if (img.width > 5000 || img.height > 5000) {
+              reject(new Error("Image size should not exceed 5000x5000px"));
+            } else {
+              resolve(true);
+            }
+          };
+          img.onerror = () => reject(new Error("Invalid image."));
+          img.src = URL.createObjectURL(file);
+        });
+      };
 
-     try {
-       await validateImage(file);
-       await validateImageSize(file);
-       formik.setFieldValue("photo", file);
-       setFileName(file.name);
-       setImageError("");
-     } catch (error) {
-       setImageError(error.message);
-       formik.setFieldValue("photo", null);
-     }
-   }
- };
-
-
+      try {
+        await validateImage(file);
+        await validateImageSize(file);
+        formik.setFieldValue("photo", file);
+        setFileName(file.name);
+        setImageError("");
+      } catch (error) {
+        setImageError(error.message);
+        formik.setFieldValue("photo", null);
+      }
+    }
+  };
 
   const handleUpload = () => {
     fileInputRef.current.click();
@@ -235,16 +230,16 @@ export const UploadImageForm = () => {
               ))}
             </div>
             <div
-              className={`${style.upload_container} ${
-                imageError ? style.error_border : ""
-              }`}
+              className={classNames(style.upload_container, {
+                [style.error_border]: imageError,
+              })}
             >
               <button
                 type="button"
                 onClick={handleUpload}
-                className={`${style.upload_button} ${
-                  imageError ? style.error_btn_input : ""
-                }`}
+                className={classNames(style.upload_button, {
+                  [style.error_btn_input]: imageError,
+                })}
               >
                 Upload
               </button>
