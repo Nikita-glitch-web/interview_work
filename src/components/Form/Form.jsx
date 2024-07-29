@@ -8,6 +8,7 @@ import { Input, InputMasked, RadioButton } from "./components";
 import { Preloader } from "./components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import useImageValidation from "./useImageValidation";
 
 export const UploadImageForm = () => {
   const fileInputRef = useRef();
@@ -15,8 +16,8 @@ export const UploadImageForm = () => {
   const [selectedPosition, setSelectedPosition] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [imageError, setImageError] = useState("");
-  const [fileName, setFileName] = useState("");
+
+  const { imageError, fileName, handleFileChange } = useImageValidation();
 
   useEffect(() => {
     const fetchPositions = async () => {
@@ -84,77 +85,23 @@ export const UploadImageForm = () => {
         if (response.status === 201) {
           setIsSuccess(true);
         } else {
-          setImageError("Failed to submit data.");
+          formik.setFieldError("photo", "Failed to submit data.");
         }
       } catch (error) {
-        setImageError("Failed to submit data.");
+        formik.setFieldError("photo", "Failed to submit data.");
       } finally {
         setIsLoading(false);
       }
     },
   });
 
-  const validateImage = (file) => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => resolve(true);
-      img.onerror = () => reject(new Error("Invalid image"));
-      img.src = URL.createObjectURL(file);
-    });
-  };
-
-  const handleFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      // Validate file type
-      const validTypes = ["image/jpeg", "image/jpg", "image/png"];
-      if (!validTypes.includes(file.type)) {
-        setImageError("Only JPG and PNG images are allowed.");
-        formik.setFieldValue("photo", null);
-        return;
-      }
-
-      // Validate file size (max 5MB)
-      const maxSize = 5 * 1024 * 1024; // 5MB
-      if (file.size > maxSize) {
-        setImageError("Image size should not exceed 5MB.");
-        formik.setFieldValue("photo", null);
-        return;
-      }
-
-      // Validate image dimensions (min 70x70 and max 5000x5000)
-      const validateImageSize = (file) => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.onload = () => {
-            if (img.width < 200 || img.height < 200) {
-              reject(new Error("Image size should be at least 200x200px"));
-            } else if (img.width > 5000 || img.height > 5000) {
-              reject(new Error("Image size should not exceed 5000x5000px"));
-            } else {
-              resolve(true);
-            }
-          };
-          img.onerror = () => reject(new Error("Invalid image."));
-          img.src = URL.createObjectURL(file);
-        });
-      };
-
-      try {
-        await validateImage(file);
-        await validateImageSize(file);
-        formik.setFieldValue("photo", file);
-        setFileName(file.name);
-        setImageError("");
-      } catch (error) {
-        setImageError(error.message);
-        formik.setFieldValue("photo", null);
-      }
-    }
-  };
-
   const handleUpload = () => {
     fileInputRef.current.click();
+  };
+
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+    handleFileChange(file, formik.setFieldValue);
   };
 
   const getShortFileName = (name) => {
@@ -248,7 +195,7 @@ export const UploadImageForm = () => {
                 className={style.img_input}
                 type="file"
                 name="photo"
-                onChange={handleFileChange}
+                onChange={handleFileInputChange}
                 onBlur={formik.handleBlur}
                 style={{ display: "none" }}
               />
@@ -265,9 +212,11 @@ export const UploadImageForm = () => {
                 <div className={style.error_message}>{formik.errors.photo}</div>
               )}
             </div>
-            {imageError && (
-              <div className={style.error_message}>{imageError}</div>
-            )}
+            <div>
+              {imageError && (
+                <div className={style.error_message}>{imageError}</div>
+              )}
+            </div>
             <div className={style.btn_wrapper}>
               <Button type="submit" disabled={!formik.isValid || !formik.dirty}>
                 Sign Up
