@@ -55,7 +55,7 @@ const useImageValidation = ({
 
         // Validate file size
         if (file.size > maxSize) {
-          setImageError("Image size should not exceed 5MB.");
+          setImageError("Image size shouldn't exceed 5MB.");
           setFieldValue("photo", null);
           return;
         }
