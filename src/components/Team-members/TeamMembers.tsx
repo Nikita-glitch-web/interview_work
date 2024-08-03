@@ -1,15 +1,24 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from "react";
+import React, { FC, useState, useEffect } from "react";
 import classNames from "classnames";
 import style from "./TeamMembers.module.css";
-import { Button } from "../Controls/Button";
 import { Preloader } from "../Form/components";
+import { Button } from "../Controls/Button";
 
-const TeamMembers = () => {
-  const [members, setMembers] = useState([]);
+interface TeamMember { 
+  photo: string;
+  name: string;
+  position: string;
+  email: string;
+  phone: number;
+  message: string;
+}
+
+export const TeamMembers: FC = () => {
+  const [members, setMembers] = useState<TeamMember[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<Error | null>(null);
   const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
@@ -17,7 +26,7 @@ const TeamMembers = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchMembers = async (page) => {
+  const fetchMembers = async (page: number) => {
     setLoading(true);
     try {
       const response = await fetch(
@@ -31,7 +40,7 @@ const TeamMembers = () => {
       }
       setLoading(false);
     } catch (error) {
-      setError(error);
+      setError(error as Error);
       setLoading(false);
     }
   };
@@ -41,9 +50,9 @@ const TeamMembers = () => {
     fetchMembers(page + 1);
   };
 
-  const handleImageError = (event) => {
-    event.target.src = "https://via.placeholder.com/80";
-    event.target.className = style.member_photo;
+  const handleImageError = (event: React.SyntheticEvent<HTMLImageElement>) => {
+    event.currentTarget.src = "https://via.placeholder.com/80";
+    event.currentTarget.className = style.member_photo;
   };
 
   return (
@@ -82,4 +91,3 @@ const TeamMembers = () => {
   );
 };
 
-export default TeamMembers;

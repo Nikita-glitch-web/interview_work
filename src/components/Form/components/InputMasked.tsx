@@ -1,9 +1,19 @@
-import PropTypes from "prop-types";
+import React, { FC, ReactNode, FocusEvent, ChangeEvent } from "react";
 import InputMask from "react-input-mask";
 import { Input } from "./Input";
 import styles from "./Input.module.css";
 
-export const InputMasked = ({
+interface InputProps {
+  value: string;
+  placeholder: string;
+  onFocus?: (event: FocusEvent<HTMLInputElement>) => void; //=> void обозначает тип функции, который ничего не возвращает
+  onBlur: (event: FocusEvent<HTMLInputElement>) => void;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  name: string;
+}
+
+//FC functional-component
+export const InputMasked: FC<InputProps> = ({
   value,
   placeholder,
   onFocus,
@@ -27,12 +37,3 @@ export const InputMasked = ({
   );
 };
 
-InputMasked.propTypes = {
-  errorMessage: PropTypes.string,
-  value: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
-  onFocus: PropTypes.func,
-  name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
-};

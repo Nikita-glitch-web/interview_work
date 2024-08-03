@@ -1,14 +1,21 @@
 // eslint-disable-next-line no-unused-vars
-import React from "react";
-import PropTypes from "prop-types";
+import React, { FC, ReactNode } from "react";
 import style from "./Button.module.css";
 
-export const Button = ({
+interface ButtonProps {
+  children: ReactNode;
+  onClick?: () => void;
+  disabled?: boolean;
+  type?: "button" | "submit" | "reset";
+  className?: string;
+}
+
+export const Button: FC<ButtonProps> = ({
   children,
-  onClick,
-  disabled,
+  onClick = () => {},
+  disabled = false,
   type = "button",
-  className,
+  className = "",
 }) => {
   const classNames = [
     style.button,
@@ -28,15 +35,3 @@ export const Button = ({
   );
 };
 
-Button.propTypes = {
-  children: PropTypes.node.isRequired,
-  onClick: PropTypes.func,
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-  type: PropTypes.oneOf(["button", "submit", "reset"]),
-};
-
-Button.defaultProps = {
-  onClick: () => {},
-  disabled: false,
-};

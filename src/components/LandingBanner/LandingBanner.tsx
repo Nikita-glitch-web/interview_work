@@ -1,10 +1,12 @@
 // eslint-disable-next-line no-unused-vars
-import React from "react";
+import React, { FC } from "react";
 import classNames from "classnames";
 import style from "./LandingBanner.module.css";
 import { Link } from "../Controls";
 
-export const LandingBanner = () => {
+interface LandingBanner { };
+
+export const LandingBanner: FC<LandingBanner> = () => {
   return (
     <div className={style.banner_content_box}>
       <div className={style.banner_content}>
@@ -27,3 +29,4 @@ export const LandingBanner = () => {
     </div>
   );
 };
+

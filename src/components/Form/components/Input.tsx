@@ -1,10 +1,22 @@
 // eslint-disable-next-line no-unused-vars
-import React from "react";
+import React, { FC, FocusEvent, ChangeEvent } from "react";
 import classNames from "classnames";
 import styles from "./Input.module.css";
-import PropTypes from "prop-types";
 
-export const Input = ({
+interface InputProps {
+  errorMessage?: string;
+  value: string;
+  placeholder: string;
+  onFocus?: (event: FocusEvent<HTMLInputElement>) => void;
+  name: string;
+  type: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onBlur: (event: FocusEvent<HTMLInputElement>) => void;
+  tooltip?: string;
+}
+
+
+export const Input: FC<InputProps> = ({
   errorMessage,
   value,
   type,
@@ -45,14 +57,4 @@ export const Input = ({
   );
 };
 
-Input.propTypes = {
-  errorMessage: PropTypes.string,
-  value: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
-  onFocus: PropTypes.func,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
-  tooltip: PropTypes.string,
-};
+export default Input;
