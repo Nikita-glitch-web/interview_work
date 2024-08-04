@@ -5,7 +5,7 @@ import { Link } from "../Controls";
 // Определение типів для пропсів, по необхідності
 interface HeaderProps {}
 
-const Header: FC<HeaderProps> = () => {
+export const Header: FC<HeaderProps> = () => {
   return (
     <header className={style.header_wrapper}>
       <div className={style.header_content}>
@@ -32,4 +32,3 @@ const Header: FC<HeaderProps> = () => {
   );
 };
 
-export default Header;
