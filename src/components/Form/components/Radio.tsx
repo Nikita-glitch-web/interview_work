@@ -1,7 +1,6 @@
 // src/components/Form/components/RadioButton.jsx
 // eslint-disable-next-line no-unused-vars
 import React, { FC, ChangeEvent  } from "react";
-import PropTypes from "prop-types";
 import styles from "./RadioButton.module.css";
 
 interface Position {

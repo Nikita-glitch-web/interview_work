@@ -4,7 +4,7 @@ import classNames from "classnames";
 import styles from "./Input.module.css";
 
 interface InputProps {
-  errorMessage?: string;
+  errorMessage: string;
   value: string;
   placeholder: string;
   onFocus?: (event: FocusEvent<HTMLInputElement>) => void;

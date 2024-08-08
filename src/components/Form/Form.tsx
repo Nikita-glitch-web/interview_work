@@ -1,40 +1,66 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect, useRef } from "react";
+// Імпортуємо необхідні модулі та компоненти
+import React, { useState, useEffect, useRef, ChangeEvent, FC } from "react";
 import classNames from "classnames";
 import style from "./Form.module.css";
 import { Button } from "../Controls/Button";
 import img from "./Success.png";
 import { Input, InputMasked, RadioButton } from "./components";
 import { Preloader } from "./components";
-import { useFormik } from "formik";
+import { useFormik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import useImageValidation from "./useImageValidation";
 
-export const UploadImageForm = () => {
-  const fileInputRef = useRef();
-  const [positions, setPositions] = useState([]);
-  const [selectedPosition, setSelectedPosition] = useState("");
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+// Визначаємо інтерфейс для даних форми
+interface FormValues {
+  name: string;
+  email: string;
+  phone: string;
+  position: string;
+  photo: File | null;
+}
 
+// Визначаємо інтерфейс для позиції
+interface Position {
+  id: string;
+  name: string;
+}
+
+// Основний компонент форми
+export const UploadImageForm: FC = () => {
+  // Використовуємо useRef для роботи з елементом input для завантаження файлу
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  
+  // Стан для зберігання списку позицій
+  const [positions, setPositions] = useState<Position[]>([]);
+  
+  // Стан для зберігання обраної позиції
+  const [selectedPosition, setSelectedPosition] = useState<string>("");
+  
+  // Стан для керування відображенням успіху
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  
+  // Стан для керування відображенням завантаження
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  // Використовуємо кастомний хук для валідації зображень
   const { imageError, fileName, handleFileChange } = useImageValidation();
 
+  // Завантажуємо список позицій під час монтування компонента
   useEffect(() => {
     const fetchPositions = async () => {
       try {
-        const response = await fetch(
-          "https://frontend-test-assignment-api.abz.agency/api/v1/positions"
-        );
+        const response = await fetch("https://frontend-test-assignment-api.abz.agency/api/v1/positions");
         const data = await response.json();
         setPositions(data.positions);
       } catch (error) {
-        console.error("Error fetching positions:", error);
+        console.error("Помилка під час отримання позицій:", error);
       }
     };
     fetchPositions();
   }, []);
 
-  const initialValues = {
+  // Початкові значення для форми
+  const initialValues: FormValues = {
     name: "",
     email: "",
     phone: "",
@@ -42,69 +68,67 @@ export const UploadImageForm = () => {
     photo: null,
   };
 
+  // Схема валідації для форми
   const validationSchema = Yup.object({
-    name: Yup.string()
-      .min(3, "Name must be at least 3 characters long")
-      .required("Name is required"),
-    email: Yup.string()
-      .email("Invalid email address")
-      .min(3, "Email must be at least 3 characters long")
-      .required("Email is required"),
-    phone: Yup.string()
-      .min(3, "Phone must be at least 3 characters long")
-      .required("Phone is required"),
-    position: Yup.string().required("Position is required"),
-    photo: Yup.mixed().required("Photo is required"),
+    name: Yup.string().min(3, "Ім'я повинно містити щонайменше 3 символи").required("Ім'я є обов'язковим"),
+    email: Yup.string().email("Невірна електронна адреса").min(3, "Електронна адреса повинна містити щонайменше 3 символи").required("Електронна адреса є обов'язковою"),
+    phone: Yup.string().min(3, "Телефон повинен містити щонайменше 3 символи").required("Телефон є обов'язковим"),
+    position: Yup.string().required("Позиція є обов'язковою"),
+    photo: Yup.mixed().required("Фото є обов'язковим"),
   });
 
+  // Ініціалізація useFormik
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values: FormValues, { setFieldError }: FormikHelpers<FormValues>) => {
       setIsLoading(true);
 
+      // Створюємо FormData для відправлення даних
       const formData = new FormData();
       formData.append("name", values.name);
       formData.append("email", values.email);
       formData.append("phone", values.phone);
       formData.append("position_id", selectedPosition);
-      formData.append("photo", values.photo);
+      formData.append("photo", values.photo as Blob);
 
       try {
-        const response = await fetch(
-          "https://frontend-test-assignment-api.abz.agency/api/v1/users",
-          {
-            method: "POST",
-            body: formData,
-            headers: {
-              Accept: "application/json",
-            },
-          }
-        );
+        const response = await fetch("https://frontend-test-assignment-api.abz.agency/api/v1/users", {
+          method: "POST",
+          body: formData,
+          headers: {
+            Accept: "application/json",
+          },
+        });
 
         if (response.status === 201) {
           setIsSuccess(true);
         } else {
-          formik.setFieldError("photo", "Failed to submit data.");
+          setFieldError("photo", "Не вдалося відправити дані.");
         }
       } catch (error) {
-        formik.setFieldError("photo", "Failed to submit data.");
+        setFieldError("photo", "Не вдалося відправити дані.");
       } finally {
         setIsLoading(false);
       }
     },
   });
 
+  // Обробник для відкриття вікна вибору файлу
   const handleUpload = () => {
-    fileInputRef.current.click();
+    fileInputRef.current?.click();
   };
 
-  const handleFileInputChange = (e) => {
-    const file = e.target.files[0];
-    handleFileChange(file, formik.setFieldValue);
+  // Обробник зміни файлу
+  const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleFileChange(file, formik.setFieldValue);
+    }
   };
 
-  const getShortFileName = (name) => {
+  // Функція для скорочення довгого імені файлу
+  const getShortFileName = (name: string) => {
     const maxLength = 20;
     if (name.length <= maxLength) {
       return name;
@@ -118,22 +142,18 @@ export const UploadImageForm = () => {
         <Preloader />
       ) : isSuccess ? (
         <div className={style.success_screen}>
-          <h4 className={style.success_title}>User successfully registered</h4>
+          <h4 className={style.success_title}>Користувач успішно зареєстрований</h4>
           <img src={img} alt="Success" className={style.success_img} />
         </div>
       ) : (
-        <form
-          className={style.form}
-          id="signUpForm"
-          onSubmit={formik.handleSubmit}
-        >
-          <h3 className={style.form_title}>Working with POST request</h3>
+        <form className={style.form} id="signUpForm" onSubmit={formik.handleSubmit}>
+          <h3 className={style.form_title}>Робота з POST-запитом</h3>
           <div className={style.form_content_wrapper}>
             <Input
               id="name"
               value={formik.values.name}
               type="text"
-              placeholder="Your name"
+              placeholder="Ваше ім'я"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               name="name"
@@ -143,7 +163,7 @@ export const UploadImageForm = () => {
               id="email"
               value={formik.values.email}
               type="email"
-              placeholder="Email"
+              placeholder="Електронна пошта"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               name="email"
@@ -154,16 +174,14 @@ export const UploadImageForm = () => {
               value={formik.values.phone}
               type="tel"
               tooltip={"+3800000000"}
-              placeholder="Phone"
+              placeholder="Телефон"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               name="phone"
               errorMessage={formik.touched.phone && formik.errors.phone}
             />
             <div className={style.radio_wrapper}>
-              <h2 className={style.radio_buttons__title}>
-                Select your position
-              </h2>
+              <h2 className={style.radio_buttons__title}>Оберіть вашу позицію</h2>
               {positions.map((position) => (
                 <RadioButton
                   key={position.id}
@@ -176,11 +194,9 @@ export const UploadImageForm = () => {
                 />
               ))}
             </div>
-            <div
-              className={classNames(style.upload_container, {
-                [style.error_border]: imageError,
-              })}
-            >
+            <div className={classNames(style.upload_container, {
+              [style.error_border]: imageError,
+            })}>
               <button
                 type="button"
                 onClick={handleUpload}
@@ -188,7 +204,7 @@ export const UploadImageForm = () => {
                   [style.error_btn_input]: imageError,
                 })}
               >
-                Upload
+                upload
               </button>
               <input
                 ref={fileInputRef}
@@ -205,7 +221,7 @@ export const UploadImageForm = () => {
                     {getShortFileName(fileName)}
                   </div>
                 ) : (
-                  <span className={style.placeholder}>Upload your photo</span>
+                  <span className={style.placeholder}>upload your photo</span>
                 )}
               </div>
               {formik.touched.photo && formik.errors.photo && (
@@ -219,7 +235,7 @@ export const UploadImageForm = () => {
             </div>
             <div className={style.btn_wrapper}>
               <Button type="submit" disabled={!formik.isValid || !formik.dirty}>
-                Sign Up
+                Sign in
               </Button>
             </div>
           </div>
