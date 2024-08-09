@@ -2,19 +2,8 @@
 import React, { FC, FocusEvent, ChangeEvent } from "react";
 import classNames from "classnames";
 import styles from "./Input.module.css";
+import { InputProps } from "./types";
 
-interface InputProps {
-  id: string;
-  errorMessage: string | false | undefined;
-  value: string;
-  placeholder: string;
-  onFocus?: (event: FocusEvent<HTMLInputElement>) => void;
-  name: string;
-  type: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  onBlur: (event: FocusEvent<HTMLInputElement>) => void;
-  tooltip?: string;
-}
 
 
 export const Input: FC<InputProps> = ({
