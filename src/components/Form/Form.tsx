@@ -147,13 +147,13 @@ export const UploadImageForm: FC = () => {
         </div>
       ) : (
         <form className={style.form} id="signUpForm" onSubmit={formik.handleSubmit}>
-          <h3 className={style.form_title}>Робота з POST-запитом</h3>
+          <h3 className={style.form_title}>Working with POST request</h3>
           <div className={style.form_content_wrapper}>
             <Input
               id="name"
               value={formik.values.name}
               type="text"
-              placeholder="Ваше ім'я"
+              placeholder="Your name"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               name="name"
@@ -163,7 +163,7 @@ export const UploadImageForm: FC = () => {
               id="email"
               value={formik.values.email}
               type="email"
-              placeholder="Електронна пошта"
+              placeholder="Email"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               name="email"
@@ -173,15 +173,14 @@ export const UploadImageForm: FC = () => {
               id="phone"
               value={formik.values.phone}
               type="tel"
-              tooltip={"+3800000000"}
-              placeholder="Телефон"
+              placeholder="Phone"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               name="phone"
               errorMessage={formik.touched.phone && formik.errors.phone}
             />
             <div className={style.radio_wrapper}>
-              <h2 className={style.radio_buttons__title}>Оберіть вашу позицію</h2>
+              <h2 className={style.radio_buttons__title}>Select your position</h2>
               {positions.map((position) => (
                 <RadioButton
                   key={position.id}
