@@ -19,6 +19,9 @@ Running the Project
 npm run dev # or yarn dev
 After running, the application will be available at http://localhost:3000.
 
+Link for gitHubPages:
+https://nikita-glitch-web.github.io/Interview_work/
+
 API
 The project interacts with the following API:
 Frontend Test Assignment API
